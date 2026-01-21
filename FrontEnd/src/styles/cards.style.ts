@@ -8,9 +8,17 @@ export const StyledCard = styled(Card)(({ theme }) => ({
   padding: theme.spacing(3),
   position: 'relative',
   transition: 'transform 0.3s ease-in-out',
+  cursor: 'pointer',
+  overflow: 'hidden',
   '&:hover': {
-    transform: 'translateY(-8px)', 
-  },
+      backgroundColor: '#195075', 
+    },
+    '& .MuiCardMedia-root': {
+      transition: 'transform 0.4s ease',
+    },
+    '&:hover .MuiCardMedia-root': {
+      transform: 'translateX(20px) scale(1.05)',
+    },
 }));
 
 export const PokemonNumber = styled(Typography)({

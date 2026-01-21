@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router";
 import { Navigation } from "../pages/Navigation/Navigation";
-import { PokeExplorer } from "../pages/PokeExplorer/PokeExplorer";
+import { PokeExplorer } from "../pages/PokeDashboard";
+import { DetailPokemon } from "../pages/MyPokemons/Detail/DetailPokemon";
+
 
 export const ContentRouter = () => {
     return(
@@ -8,6 +10,7 @@ export const ContentRouter = () => {
         <Routes>
             <Route path="/pokemons/" element={<Navigation/>}>
                  <Route path="" element={<PokeExplorer />} />
+                 <Route path="details" element={<DetailPokemon />} />
             </Route>
         </Routes>
         </>

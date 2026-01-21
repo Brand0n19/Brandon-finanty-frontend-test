@@ -16,5 +16,5 @@ model Pokemon {
   types     String[] 
   createdAt DateTime @default(now())
   deleted DateTime?
-  modified DateTime?
+  modified DateTime? @updatedAt
 }

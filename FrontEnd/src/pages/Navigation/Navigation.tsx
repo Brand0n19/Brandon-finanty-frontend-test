@@ -1,20 +1,17 @@
 import { Outlet } from "react-router"
 import { Navbar } from "../../components/NavBar"
+import { DynamicBreadcrumbs } from "../../components/BreadCrumbs"
 
 export const Navigation = () => {
     return (
         <>
-            <div style={{display: "flex", flexDirection:"column"}}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
                 <div>
-                    <Navbar/>
+                    <Navbar />
                 </div>
                 <div>
-                    <div>
-                        {/* sidebar */}
-                    </div>
-                    <div>
-                        <Outlet/>
-                    </div>
+                    <DynamicBreadcrumbs />
+                    <Outlet />
                 </div>
             </div>
         </>

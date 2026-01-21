@@ -6,8 +6,8 @@ export class GetPokemonByIdQuery {
 
   async execute(id: number) {
     try{
-      const pokemon = await prisma.pokemon.findUnique({
-        where: { id : id}
+      const pokemon = await prisma.pokemon.findFirst({
+        where: { id : id, deleted: null }
       });
   
       return PokemonMapper.toDetailDto(pokemon);

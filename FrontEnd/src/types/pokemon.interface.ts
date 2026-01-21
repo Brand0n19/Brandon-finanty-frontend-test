@@ -18,3 +18,20 @@ export interface IListPokemonExplorer {
   name: string;
   imageUrl: string;
 }
+
+export interface IPokemonRequest{
+    id: number;
+    name: string;
+    height: number;
+    weight: number;
+}
+
+export interface IPokemonDetail {
+    id: number;
+    name: string;
+    image: string;
+    height: number;
+    weight: number;
+    types: string[]; 
+    createdAt: string | Date; 
+}

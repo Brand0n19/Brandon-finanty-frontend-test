@@ -5,43 +5,50 @@ import { ICreatePokemon } from "../request/create-pokemon.request";
 
 export class CreatePokemon {
     private pokeApi = new PokeApiService();
-    async execute(body: ICreatePokemon){
-        try{
-            const { name, height, image, types, weight } = body;
-            if(!name || !height || !image || !weight){
-                throw new Error("You forget to send a parameter.")
+async execute(body: ICreatePokemon) {
+    try {
+        if (!body) throw new Error("El 'body' llegó undefined al execute");
+        const { name } = body;
+        
+        const existing = await prisma.pokemon.findFirst({ where: { name } });
+        if (existing) {
+            if (existing.deleted) {
+                await prisma.pokemon.update({
+                    where: { name },
+                    data: { deleted: null },
+                })
+
+                 return new BaseResponse("Pokemon created successfully", true);
+            } else {
+                throw new Error("Pokemon already exists.");
             }
-
-            const existing = await prisma.pokemon.findUnique({ where: { name } });
-            if (existing) {
-                throw new Error("Pokemon already exists.")
-            }
-
-            const pokeData = await this.pokeApi.getPokemonByName(name);
-            if (!pokeData) {
-                throw new Error("Pokemon not found it in PokeApi")  
-            }
-
-            const typesArray = pokeData.types.map((t:any) => t.type.name);
-
-            const created = await prisma.pokemon.create({
-                data: {
-                    name: pokeData.name,
-                    image: pokeData.image,
-                    height: pokeData.height,
-                    weight: pokeData.weight,
-                    types: typesArray ?? [],
-                },
-            });
-
-            return new BaseResponse(
-                "Pokemon created succesfully",
-                true,
-            )
-
         }
-        catch{
-          throw new Error("We couldn't create your Pokémon.")
+
+        const pokeData = await this.pokeApi.getPokemonByName(name);
+        
+        if (!pokeData) {
+            throw new Error("PokeApi no devolvió nada.");
         }
+        
+        console.log("Verificando pokeData antes de crear:", pokeData);
+
+        // Usamos los datos directamente como los vimos en tu log
+        await prisma.pokemon.create({
+            data: {
+                name: pokeData.name, // El log dice que existe
+                image: pokeData.image,
+                height: pokeData.height,
+                weight: pokeData.weight,
+                types: pokeData.types, // Al ser String[] en el schema y ['electric'] en el log, es directo
+            },
+        });
+
+        return new BaseResponse("Pokemon created successfully", true);
+
+    } catch (error: any) {
+
+        console.error("ERROR EN EXECUTE:", error); 
+        throw new Error(error.message);
+    }
     }
 }

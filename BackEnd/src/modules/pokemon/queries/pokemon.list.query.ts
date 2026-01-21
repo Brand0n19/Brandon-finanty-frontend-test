@@ -11,8 +11,9 @@ export class GetPokemonsQuery {
           name : {
             contains: search,
             mode: 'insensitive',
-          }
-        } : {};
+          },
+          deleted: null
+        } : {deleted: null};
 
     const [items, total] = await Promise.all([
       prisma.pokemon.findMany({

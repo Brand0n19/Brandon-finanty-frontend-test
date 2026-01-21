@@ -1,9 +1,12 @@
 import { AppBar, Toolbar, Typography, Button, Box, Container } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon'; 
+import { CreatePokemon } from '../pages/MyPokemons/Create/CreatePokemon';
+import { useState } from 'react';
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const [createOpen, setCreateOpen] = useState<boolean>(false);
 
   return (
     <AppBar position='sticky' sx={{ bgcolor: '#1a2233', borderBottom: '1px solid rgba(255,255,255,0.1)'}}>
@@ -24,10 +27,8 @@ export const Navbar = () => {
             <Button color="inherit" component={Link} to="#" onClick={() => navigate('/favorite')}>Favorite</Button>
             <Button color="inherit" component={Link} to="#" onClick={() => navigate('/mine')}>Mis Pokémons</Button>
             <Button 
-              variant="contained" 
-              color="primary" 
-              component={Link} 
-              to="/create"
+              color="primary"  
+              onClick={() => setCreateOpen(true)}
               sx={{ borderRadius: '8px', textTransform: 'none' }}
             >
               Nuevo Pokémon
@@ -35,6 +36,11 @@ export const Navbar = () => {
           </Box>
         </Toolbar>
       </Container>
+
+      <CreatePokemon 
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+      />
     </AppBar>
   );
 };

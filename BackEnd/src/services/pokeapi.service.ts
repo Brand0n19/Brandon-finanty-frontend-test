@@ -3,16 +3,20 @@ import { PokeApiPokemonListResponse } from "../modules/pokemon/dtos/pokemon-list
 
 export class PokeApiService {
   async getPokemonByName(name: string) {
-    const response = await pokeClient.get(`/${name.toLowerCase()}`);
-    const data = response.data;
-
-    return {
-      name: data.name,
-      image: data.sprites.other["official-artwork"].front_default,
-      height: data.height,
-      weight: data.weight,
-      types: data.types.map((t: any) => t.type.name),
-    };
+    try{
+      const response = await pokeClient.get(`/${name.toLowerCase()}`);
+      const data = response.data;
+  
+      return {
+        name: data.name,
+        image: data.sprites.other["official-artwork"].front_default,
+        height: data.height,
+        weight: data.weight,
+        types: data.types.map((t: any) => t.type.name),
+      };
+    }catch (error) {
+    return null; // Si no lo encuentra, retorna null
+  }
   }
 
   async getListPokemon(take: number, skip:number){

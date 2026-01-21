@@ -1,22 +1,34 @@
 import type { IListRequest } from "../../types/data.interface";
+import type { ICreated, IUpdated } from "../../types/services.interface";
 import axiosPokemon from "../httpCommons";
 
-const getExplorer = (request: IListRequest) => {
-    return axiosPokemon.get(`/explorer?take=${request.take}&page=${request.page}`);
-}
 const getDetalle = (id : string) => {
-    return axiosPokemon.get(`${id}`);
+    return axiosPokemon.get(`/${id}`);
 }
 
-// const postGuardar = (data: any) => {
-//     return axiosPokemon.post("", data);
-// }
+export const getAll = (request: IListRequest) => {
+    return axiosPokemon.get(`/items?limit=${request.take}&page=${request.page}&search=${request.search}`);
+};
+
+export const createItem = (data: ICreated) => {
+    return axiosPokemon.post('/item', data);
+};
+
+export const updateItem = (data: IUpdated) => {
+    return axiosPokemon.put('/item', data);
+};
+
+export const deleteItem = (id: string | number) => {
+    return axiosPokemon.delete(`/${id}`);
+};
 
 
 const PokemonServices = {
-    getExplorer,
     getDetalle,
-    // postGuardar
+    getAll,
+    createItem,
+    updateItem,
+    deleteItem
 };
 
 export default PokemonServices;
