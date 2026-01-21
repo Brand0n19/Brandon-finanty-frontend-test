@@ -85,7 +85,7 @@ export const PokeExplorer = () => {
                         ) :
                         (
                             <Grid container spacing={3}>
-                                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                <Grid size={{ xs: 12, sm: 12, md: 6, lg: 3 }}>
                                     <Box
                                         sx={{
                                             height: '100%',
@@ -111,7 +111,7 @@ export const PokeExplorer = () => {
                                 {
                                     pokeList && pokeList.length > 0 ? (
                                         pokeList.map((poke) => (
-                                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={poke.id}>
+                                            <Grid size={{ xs: 12, sm: 12, md: 6, lg: 3 }} key={poke.id}>
                                                 <Cards
                                                     name={poke.name}
                                                     image={poke.image}

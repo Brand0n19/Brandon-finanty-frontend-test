@@ -10,6 +10,15 @@ function App() {
   const theme = useMemo(
     () =>
       createTheme({
+        breakpoints: {
+          values: {
+            xs: 0,
+            sm: 600,
+            md: 768, // Tablet start
+            lg: 1024, // Desktop start
+            xl: 1440,
+          },
+        },
         palette: {
           mode,
           primary: {

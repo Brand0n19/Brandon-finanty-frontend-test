@@ -19,7 +19,12 @@ export const Cards = ({ name, image, code, onClick, onDelete, onEdit }: ICard) =
         component="img"
         image={image}
         alt={name}
-        sx={{ width: '100%', height: 280, p: 2 }}
+        sx={{
+          width: '100%',
+          height: { xs: 380, md: 280 },
+          p: { xs: 1, md: 2 },
+          objectFit: 'contain'
+        }}
       />
 
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
