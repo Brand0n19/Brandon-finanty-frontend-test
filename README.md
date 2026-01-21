@@ -119,4 +119,20 @@ graph TD
 - **Dark/Light Mode:** Soporte para temas dinámicos en la interfaz.
 
 ---
+
+## 🐳 Despliegue con Docker
+
+El proyecto está dockerizado. Para ejecutar el proyecto (Frontend, Backend, Base de Datos):
+
+1. Asegúrate de tener **Docker** y **Docker Compose** instalados.
+2. Desde la raíz del proyecto, ejecuta:
+   ```bash
+   docker-compose up --build
+   ```
+3. Accede a:
+   - **Frontend:** http://localhost:5173
+   - **Backend API:** http://localhost:3001
+   - **Base de Datos:** Puerto 5432 (accesible externamente como `localhost:5432`)
+
+---
 © 2026 Brandon - Finanty Technical Project
