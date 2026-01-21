@@ -1,4 +1,3 @@
-import React from 'react';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { PokemonNumber, StyledCard } from '../styles/cards.style';
