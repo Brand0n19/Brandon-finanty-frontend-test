@@ -12,10 +12,11 @@ import { CreatePokemon } from "./MyPokemons/Create/CreatePokemon";
 import { DeletePokemon } from "./MyPokemons/Delete/DeletePokemon";
 import { useNavigate } from "react-router";
 import { usePokemonStore } from "../store/usePokemonStore";
+import { Grid as Grid, Alert, Box } from "@mui/material";
 
 export const PokeExplorer = () => {
-    const { getList, pokeList, listLoading, pokeMetaData } = useListPokemons();
-    const [explorerRequest, setExplorerRequest] = useState<IListRequest>({ take: 10, page: 1,search: "" });
+    const { getList, pokeList, listLoading, pokeMetaData, error } = useListPokemons();
+    const [explorerRequest, setExplorerRequest] = useState<IListRequest>({ take: 10, page: 1, search: "" });
     const [createOpen, setCreateOpen] = useState<boolean>(false);
     const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
     const [id, setId] = useState<string>("");
@@ -30,66 +31,110 @@ export const PokeExplorer = () => {
 
 
     return (
-        <div style={{width: "100%"}}>
-            <div style={{display:"flex", justifyContent:"space-between"}}>
-                <div>
-                    <Typography variant="h2">Explorer</Typography>
-                    <Typography variant="subtitle2">{pokeMetaData?.total} Pokemons</Typography>
-                </div>
-                <div>
+        <Box sx={{ width: "100%", p: 3 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mb: 4, alignItems: "center", flexWrap: "wrap", gap: 2 }}>
+                <Box>
+                    <Typography variant="h2" sx={{ fontWeight: 'bold' }}>Explorer</Typography>
+                    <Typography variant="subtitle2" color="text.secondary">
+                        {pokeMetaData?.total ?? 0} Pokemons found
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex", gap: 2, alignItems: "center", flexWrap: "wrap" }}>
                     <ComboBox
                         label="items"
                         size="small"
                         width={200}
                         options={PokemonCombo}
                         onValueChange={(take) => {
-                                const newTake = parseInt(take);
-                                if (newTake !== explorerRequest.take) {
-                                    setExplorerRequest(prev => ({ ...prev, take: newTake }));
-                                }
-                            }}    
+                            const newTake = parseInt(take);
+                            if (newTake !== explorerRequest.take) {
+                                setExplorerRequest(prev => ({ ...prev, take: newTake, page: 1 }));
+                            }
+                        }}
                     />
                     <PaginationTable
-                        page={pokeMetaData?.page ?? 1} 
+                        page={pokeMetaData?.page ?? 1}
                         totalPages={pokeMetaData?.pages ?? 1}
                         onChange={(pag) => {
-                                // SOLO actualiza si la página es diferente
-                                if (pag !== explorerRequest.page) {
-                                    setExplorerRequest(prev => ({ ...prev, page: pag }));
-                                }
-                            }}                
-                />
-                </div>
-                <TextField id="outlined-basic" label="Search by name" variant="outlined" onChange={(e) => setExplorerRequest(prev => ({ ...prev, search: e.target.value }))} />
-            </div>
-            <div style={{ width: "100%", height: "100%" }}>
+                            if (pag !== explorerRequest.page) {
+                                setExplorerRequest(prev => ({ ...prev, page: pag }));
+                            }
+                        }}
+                    />
+                    <TextField
+                        id="outlined-basic"
+                        label="Search by name"
+                        variant="outlined"
+                        size="small"
+                        onChange={(e) => setExplorerRequest(prev => ({ ...prev, search: e.target.value, page: 1 }))}
+                    />
+                </Box>
+            </Box>
+
+            {error && (
+                <Alert severity="error" sx={{ mb: 3 }}>
+                    {error}
+                </Alert>
+            )}
+
+            <Box sx={{ width: "100%" }}>
                 {
                     listLoading ?
                         (
                             <CardSkeleton />
                         ) :
                         (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "2rem 0.3rem" }}>
-                                <div style={{margin:"auto", borderRadius:"2rem", padding:"2rem", cursor:"pointer", backgroundColor:"rgba(0,0,0,0.3)"}} onClick={() =>setCreateOpen(true)}>
-                                    <AddIcon
-                                    />
-                                </div>
+                            <Grid container spacing={3}>
+                                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                    <Box
+                                        sx={{
+                                            height: '100%',
+                                            minHeight: 400,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderRadius: "24px",
+                                            p: 2,
+                                            cursor: "pointer",
+                                            backgroundColor: "rgba(0,0,0,0.05)",
+                                            border: '2px dashed rgba(0,0,0,0.1)',
+                                            '&:hover': { backgroundColor: "rgba(0,0,0,0.1)" }
+                                        }}
+                                        onClick={() => setCreateOpen(true)}
+                                    >
+                                        <Box sx={{ textAlign: 'center' }}>
+                                            <AddIcon sx={{ fontSize: 60, color: 'text.secondary' }} />
+                                            <Typography color="text.secondary">Add New Pokemon</Typography>
+                                        </Box>
+                                    </Box>
+                                </Grid>
                                 {
-                                    pokeList?.map((poke) => (
-                                        <Cards 
-                                            key={poke.id} 
-                                            name={poke.name} 
-                                            image={poke.image} 
-                                            code={poke.id.toString()} 
-                                            onClick={() => navigate("details", { state: { id: poke.id } })}
-                                            onDelete={()=> {setId(poke.id.toString()); setDeleteOpen(true);}}
-                                        />
-                                    ))
+                                    pokeList && pokeList.length > 0 ? (
+                                        pokeList.map((poke) => (
+                                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={poke.id}>
+                                                <Cards
+                                                    name={poke.name}
+                                                    image={poke.image}
+                                                    code={poke.id.toString()}
+                                                    onClick={() => navigate("details", { state: { id: poke.id } })}
+                                                    onDelete={() => { setId(poke.id.toString()); setDeleteOpen(true); }}
+                                                />
+                                            </Grid>
+                                        ))
+                                    ) : !listLoading && !error && (
+                                        <Grid size={12}>
+                                            <Box sx={{ textAlign: 'center', py: 10 }}>
+                                                <Typography variant="h5" color="text.secondary">
+                                                    No se encontraron pokemons con los criterios de búsqueda.
+                                                </Typography>
+                                            </Box>
+                                        </Grid>
+                                    )
                                 }
-                            </div>
+                            </Grid>
                         )
                 }
-            </div> 
+            </Box>
             <CreatePokemon
                 open={createOpen}
                 onClose={() => setCreateOpen(false)}
@@ -99,6 +144,6 @@ export const PokeExplorer = () => {
                 onClose={() => setDeleteOpen(false)}
                 id={id}
             />
-        </div>
+        </Box>
     );
 }

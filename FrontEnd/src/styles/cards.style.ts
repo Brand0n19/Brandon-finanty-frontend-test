@@ -2,23 +2,23 @@ import { Box, Card, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
 export const StyledCard = styled(Card)(({ theme }) => ({
-  backgroundColor: '#5e6d8f', 
+  backgroundColor: theme.palette.mode === 'dark' ? '#334155' : '#5e6d8f',
   color: '#ffffff',
   borderRadius: '24px',
   padding: theme.spacing(3),
   position: 'relative',
-  transition: 'transform 0.3s ease-in-out',
+  transition: 'transform 0.3s ease-in-out, background-color 0.3s ease',
   cursor: 'pointer',
   overflow: 'hidden',
   '&:hover': {
-      backgroundColor: '#195075', 
-    },
-    '& .MuiCardMedia-root': {
-      transition: 'transform 0.4s ease',
-    },
-    '&:hover .MuiCardMedia-root': {
-      transform: 'translateX(20px) scale(1.05)',
-    },
+    backgroundColor: theme.palette.mode === 'dark' ? '#475569' : '#195075',
+  },
+  '& .MuiCardMedia-root': {
+    transition: 'transform 0.4s ease',
+  },
+  '&:hover .MuiCardMedia-root': {
+    transform: 'translateX(20px) scale(1.05)',
+  },
 }));
 
 export const PokemonNumber = styled(Typography)({
