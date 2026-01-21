@@ -34,9 +34,9 @@ export const PokeExplorer = () => {
         <Box sx={{ width: "100%", p: 3 }}>
             <Box sx={{ display: "flex", justifyContent: "space-between", mb: 4, alignItems: "center", flexWrap: "wrap", gap: 2 }}>
                 <Box>
-                    <Typography variant="h2" sx={{ fontWeight: 'bold' }}>Explorer</Typography>
-                    <Typography variant="subtitle2" color="text.secondary">
-                        {pokeMetaData?.total ?? 0} Pokemons found
+                    <Typography variant="h2">Explorer</Typography>
+                    <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+                        Discover and manage your {pokeMetaData?.total ?? 0} Pokemons
                     </Typography>
                 </Box>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center", flexWrap: "wrap" }}>
