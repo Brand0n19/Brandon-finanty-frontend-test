@@ -6,8 +6,11 @@ const getDetalle = (id : string) => {
     return axiosPokemon.get(`/${id}`);
 }
 
-export const getAll = (request: IListRequest) => {
-    return axiosPokemon.get(`/items?limit=${request.take}&page=${request.page}&search=${request.search}`);
+export const getAll = (request: IListRequest, signal?: AbortSignal) => {
+    return axiosPokemon.get(
+        `/items?limit=${request.take}&page=${request.page}&search=${request.search}`, 
+        { signal } 
+    );
 };
 
 export const createItem = (data: ICreated) => {

@@ -2,7 +2,7 @@ import { useListPokemons } from "../hooks/useListPokemons";
 import { CardSkeleton } from "../components/Skeletons/Card.Skeleton";
 import { useEffect, useState } from "react";
 import { Cards } from "../components/Cards";
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { ComboBox } from "../components/ComboBox";
 import { PokemonCombo } from "../types/comboBox.initial";
 import { PaginationTable } from "../components/Pagintaion";
@@ -60,6 +60,7 @@ export const PokeExplorer = () => {
                             }}                
                 />
                 </div>
+                <TextField id="outlined-basic" label="Search by name" variant="outlined" onChange={(e) => setExplorerRequest(prev => ({ ...prev, search: e.target.value }))} />
             </div>
             <div style={{ width: "100%", height: "100%" }}>
                 {

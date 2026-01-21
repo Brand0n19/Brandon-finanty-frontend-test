@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import PokemonServices from "../services/pokemon/PokemonServices";
 import type { IPokemon } from "../types/pokemon.interface";
 import type { IBaseMeta, IBaseResponse } from "../types/base.interface";
@@ -9,17 +9,34 @@ export const useListPokemons = () => {
     const [listLoading, setListLoading] = useState<boolean>(false);
     const [pokeMetaData, setPokeMetaData] = useState<IBaseMeta | null>(null);
 
+    const abortControllerRef = useRef<AbortController | null>(null);
+
+    useEffect(() => {
+        return () => {
+            abortControllerRef.current?.abort();
+        };
+    }, []);
+    
     const getList = useCallback(async (request: IListRequest) => {
-            setListLoading(true);
+        setListLoading(true);
+
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
             try {
-                const response = await PokemonServices.getAll(request);
+                const response = await PokemonServices.getAll(request, controller.signal);
 
                 const res: IBaseResponse<IPokemon> = response.data;
 
                 setPokeList(res.data);
                 setPokeMetaData(res.meta);
             } finally {
-                setListLoading(false);
+                if (abortControllerRef.current === controller) {
+                    setListLoading(false);
+                }
             }
         }, []);
 
