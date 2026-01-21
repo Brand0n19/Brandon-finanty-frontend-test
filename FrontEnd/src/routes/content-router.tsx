@@ -5,14 +5,14 @@ import { DetailPokemon } from "../pages/MyPokemons/Detail/DetailPokemon";
 
 
 export const ContentRouter = () => {
-    return(
+    return (
         <>
-        <Routes>
-            <Route path="/pokemons/" element={<Navigation/>}>
-                 <Route path="" element={<PokeExplorer />} />
-                 <Route path="details" element={<DetailPokemon />} />
-            </Route>
-        </Routes>
+            <Routes>
+                <Route path="/pokemons/" element={<Navigation />}>
+                    <Route path="" element={<PokeExplorer />} />
+                    <Route path="details" element={<DetailPokemon />} />
+                </Route>
+            </Routes>
         </>
     );
 }

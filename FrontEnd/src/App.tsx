@@ -96,7 +96,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter basename='finanty'>
+      <BrowserRouter basename='/finanty'>
         <ContentRouter />
       </BrowserRouter>
     </ThemeProvider>

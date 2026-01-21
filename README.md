@@ -57,9 +57,15 @@ npm install
   ```env
   DATABASE_URL="postgresql://USUARIO:PASSWORD@localhost:5432/finanty_db"
   ```
+  ```
+- **Script de Inicialización:** Existe un script SQL base en `DataBase/init.sql` para restaurar o inicializar la estructura si es requerido.
 - Ejecutar migraciones de Prisma:
   ```bash
   npx prisma migrate dev --name init
+  ```
+- Generar el cliente de Prisma:
+  ```bash
+  npx prisma generate
   ```
 - Iniciar el servidor:
   ```bash
