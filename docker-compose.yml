@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: finanty-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: finanty_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./DataBase/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./BackEnd
+    container_name: finanty-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/finanty_db
+      - PORT=3001
+    depends_on:
+      - db
+    restart: always
+
+  frontend:
+    build: ./FrontEnd
+    container_name: finanty-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  postgres_data:

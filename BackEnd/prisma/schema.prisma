@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Pokemon {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  image     String
+  height    Int
+  weight    Int
+  types     String[] 
+  createdAt DateTime @default(now())
+  deleted DateTime?
+  modified DateTime? @updatedAt
+}
