@@ -35,7 +35,7 @@ Este es un aplicativo fullstack robusto diseñado para gestionar Pokémon, permi
 ## 📋 Requisitos Previos
 
 - **Node.js:** Versión 18 o superior.
-- **PostgreSQL:** Instancia de base de datos activa.
+- **PostgreSQL:** Instancia de base de datos activa (el init se encuentra dentro de la carpeta database).
 - **npm / yarn:** Gestor de paquetes.
 
 ---
@@ -95,28 +95,6 @@ La API Base es: `http://localhost:3001/api`
 | **PUT** | `/item` | Actualizar Pokémon | `{ id, name, image, height, weight, types }` |
 | **DELETE** | `/:id` | Eliminar Pokémon | `id` (parámetro de ruta) |
 
----
-
-## 🏛️ Arquitectura del Proyecto
-
-```mermaid
-graph TD
-    A[Root] --> B[BackEnd]
-    A --> C[FrontEnd]
-    B --> B1[src/modules]
-    B --> B2[prisma/schema.prisma]
-    C --> C1[src/components]
-    C --> C2[src/store]
-    C --> C3[src/services]
-```
-
----
-
-## 🔥 Valor Agregado
-- **Manejo de Errores Global:** El backend incluye un middleware de error centralizado.
-- **Performance:** El frontend utiliza interceptores de Axios para manejar respuestas y errores de forma consistente.
-- **Testing:** Estructura preparada para pruebas unitarias con Jest en el backend.
-- **Dark/Light Mode:** Soporte para temas dinámicos en la interfaz.
 
 ---
 
